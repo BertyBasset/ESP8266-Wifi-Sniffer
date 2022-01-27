@@ -10,8 +10,8 @@
 
 
 
-const char* ssid     = "BTHub5-JNSW";
-const char* password = "4578acef34";
+const char* ssid     = "?????";
+const char* password = "?????";
 const char* host = "www.w3schools.com"; // only google.com not https://google.com
 const char* page = "/html/tryit.asp?filename=tryhtml_default_default";
 
