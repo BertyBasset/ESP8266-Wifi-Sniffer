@@ -1,8 +1,10 @@
 #include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
 
 void initWifi(String ssid, String password) {
+
   Serial.print("Connecting to ");
-  Serial.println(ssid);
+  Serial.print(ssid);
 
   WiFi.begin(ssid, password);
 
@@ -13,12 +15,17 @@ void initWifi(String ssid, String password) {
 
   Serial.println("");
   Serial.println("WiFi connected");  
-  Serial.println("IP address: ");
+  Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+
 }
 
-String webRequest(String host, String page) {
-  delay(100);
+String webRequest(String host, String page, char* requestType, String postContent = "") {
+  if(requestType != "GET" && requestType != "POST") {
+      Serial.println("Request Type must be GET or POST");
+      return "";
+  }
+
 
   Serial.print("connecting to ");
   Serial.println(host);
@@ -34,17 +41,26 @@ String webRequest(String host, String page) {
     return "";
   }
 
-  // We now create a URI for the request
-  String url = page;
 
-  Serial.print("Requesting URL: ");
+  HTTPClient http;
+  String url = "https://" + host + page;
+  Serial.print("Requesting:  ");
   Serial.println(url);
 
-  // This will send the request to the server
-  client.print(String("GET ") + url + " HTTP/1.1\r\n" +
-               "Host: " + host + "\r\n" + 
-               "Connection: close\r\n\r\n");
-  Serial.println();
-  Serial.println("closing connection");
-  return client.readStringUntil('_');
+  http.begin(client, url);
+  
+  int httpCode = -1;
+  if(requestType == "GET")
+     httpCode = http.GET();
+  else {	
+    http.addHeader("Content-Type", "text/plain");
+    httpCode = http.POST(postContent);
+  }
+  Serial.print("Response Code: ");
+  Serial.println(httpCode);
+  
+  if(httpCode > 0)
+    return http.getString();
+
+ return "connection error";
 }
