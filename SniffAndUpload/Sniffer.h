@@ -2,12 +2,12 @@ extern "C" {
   #include <user_interface.h>
 }
 #define DATA_LENGTH           112
-
+#define MAC_ADDRESS_LENGTH    18
 
 struct SniffSummary {
   int8 rssi;
   uint8 channel;
-  char macAddress[18];
+  char macAddress[MAC_ADDRESS_LENGTH];
   char ssid[DATA_LENGTH];
 };
 
@@ -168,8 +168,8 @@ void enableSniffing() {
 }
 
 void disableSniffing() {
-  wifi_promiscuous_enable(DISABLE);
   os_timer_disarm(&channelHop_timer); 
+  wifi_promiscuous_enable(DISABLE);
 }
 
 
