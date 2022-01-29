@@ -2,9 +2,9 @@
 #include "Sniffer.h"
 #include "WebRequest.h"
 
-const char* ssid     = "BTHub5-JNSW";                   // Your WiFi SSID Name
-const char* password = "4578acef34";                    // Your WiFi password
-const char* host     = "b3a0-86-161-121-44.ngrok.io";   // The website you are uploading to - domain part only
+const char* ssid     = "[YOUR SSSID]";                   // Your WiFi SSID Name
+const char* password = "[YOUR PASSWORD]";                    // Your WiFi password
+const char* host     = "[YOUR NGROK URL]";   // The website you are uploading to - domain part only
 const char* page     = "/Sniffer";                      // The page on your website you are uploading to
 
 void upload();    // Forward declarations
